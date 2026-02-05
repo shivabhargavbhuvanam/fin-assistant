@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles following design system */
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #F7F5F2;
+  color: #111111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for interactive elements */
+button, a {
+  transition: opacity 0.15s ease;
+}
+
+button:hover, a:hover {
+  opacity: 0.85;
+}
+
+/* Custom scrollbar (subtle) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F5F2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E6E2DC;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8C877F;
+}

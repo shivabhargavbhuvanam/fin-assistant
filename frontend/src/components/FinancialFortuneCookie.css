@@ -1,0 +1,473 @@
+/**
+ * Financial Fortune Cookie Styles
+ * 
+ * Animations:
+ * - Cookie crack: split with rotation
+ * - Fortune paper slide-out
+ * - Confetti particles burst
+ * - Typewriter cursor blink
+ * 
+ * Aesthetic: Retro/playful with warm tones
+ */
+
+/* =============================================================================
+   Wrapper
+   ============================================================================= */
+
+.fortune-cookie-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+}
+
+/* =============================================================================
+   Cookie Button
+   ============================================================================= */
+
+.fortune-cookie {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  outline: none;
+}
+
+.fortune-cookie:hover:not(:disabled) {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.fortune-cookie:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.fortune-cookie:disabled {
+  cursor: default;
+}
+
+/* Cookie Loading State */
+.cookie-loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4A574;
+}
+
+/* =============================================================================
+   Cookie Halves (Split Animation)
+   ============================================================================= */
+
+.cookie-half {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center center;
+}
+
+.cookie-emoji {
+  font-size: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: filter 0.3s ease;
+}
+
+.cookie-emoji--flipped {
+  transform: scaleX(-1);
+  opacity: 0;
+}
+
+/* Closed state - both halves overlap */
+.fortune-cookie:not(.fortune-cookie--open) .cookie-half--left {
+  clip-path: inset(0 50% 0 0);
+}
+
+.fortune-cookie:not(.fortune-cookie--open) .cookie-half--right {
+  clip-path: inset(0 0 0 50%);
+  opacity: 0;
+}
+
+/* Open state - halves split apart with rotation */
+.fortune-cookie--open .cookie-half--left {
+  transform: translateX(-12px) rotate(-15deg);
+  clip-path: inset(0 50% 0 0);
+}
+
+.fortune-cookie--open .cookie-half--right {
+  transform: translateX(12px) rotate(15deg);
+  clip-path: inset(0 0 0 50%);
+  opacity: 1;
+}
+
+.fortune-cookie--open .cookie-emoji--flipped {
+  opacity: 1;
+}
+
+/* =============================================================================
+   Cookie Color Variants (Based on Sentiment)
+   ============================================================================= */
+
+/* Positive - Golden glow */
+.cookie-positive .cookie-emoji {
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.cookie-positive::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+/* Neutral - Warm orange */
+.cookie-neutral .cookie-emoji {
+  filter: drop-shadow(0 0 6px rgba(255, 165, 0, 0.4))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Warning - Soft red */
+.cookie-warning .cookie-emoji {
+  filter: drop-shadow(0 0 8px rgba(255, 99, 71, 0.5))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.cookie-warning::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(circle, rgba(255, 99, 71, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse-warning 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes pulse-warning {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+/* =============================================================================
+   Sparkle Indicator
+   ============================================================================= */
+
+.cookie-sparkle {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  color: #FFD700;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    opacity: 0.5; 
+    transform: scale(0.8) rotate(0deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2) rotate(180deg); 
+  }
+}
+
+/* =============================================================================
+   Fortune Paper
+   ============================================================================= */
+
+.fortune-paper {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+}
+
+.fortune-paper--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+}
+
+.fortune-paper-inner {
+  background: linear-gradient(135deg, #FFF8E7 0%, #FFEFD5 50%, #FFE4C4 100%);
+  border: 1px solid #E8D5B7;
+  border-radius: 8px;
+  padding: 16px 20px;
+  min-width: 260px;
+  max-width: 320px;
+  box-shadow: 
+    0 4px 20px rgba(139, 90, 43, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  
+  /* Retro paper texture */
+  background-image: 
+    linear-gradient(135deg, #FFF8E7 0%, #FFEFD5 50%, #FFE4C4 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Paper fold effect */
+.fortune-paper-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(139, 90, 43, 0.1) 20%, 
+    rgba(139, 90, 43, 0.15) 50%, 
+    rgba(139, 90, 43, 0.1) 80%, 
+    transparent 100%
+  );
+  border-radius: 8px 8px 0 0;
+}
+
+/* =============================================================================
+   Fortune Text
+   ============================================================================= */
+
+.fortune-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5D4037;
+  text-align: center;
+  font-style: italic;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =============================================================================
+   Typewriter Effect
+   ============================================================================= */
+
+.typewriter-text {
+  display: inline;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  color: #8B5A2B;
+  animation: blink 0.8s step-end infinite;
+  margin-left: 1px;
+  font-weight: 300;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* =============================================================================
+   Lucky Number
+   ============================================================================= */
+
+.fortune-lucky-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #D4A574;
+}
+
+.lucky-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8B7355;
+}
+
+.lucky-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #228B22;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+/* =============================================================================
+   Crack Another Button
+   ============================================================================= */
+
+.crack-another-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 14px auto 0;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 100%);
+  border: 1px solid #D4A574;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #8B5A2B;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.crack-another-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FFE4B5 0%, #DEB887 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(139, 90, 43, 0.2);
+}
+
+.crack-another-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.crack-another-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.crack-another-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.crack-another-btn:hover:not(:disabled) svg {
+  transform: rotate(180deg);
+}
+
+/* =============================================================================
+   Confetti Particles
+   ============================================================================= */
+
+.confetti-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.confetti-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-burst 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+@keyframes confetti-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: 
+      translate(var(--x), var(--y)) 
+      rotate(var(--rotation)) 
+      scale(0.3);
+  }
+}
+
+/* =============================================================================
+   Error State
+   ============================================================================= */
+
+.fortune-error {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #8B5A2B;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+/* =============================================================================
+   Responsive Adjustments
+   ============================================================================= */
+
+@media (max-width: 640px) {
+  .fortune-paper-inner {
+    min-width: 220px;
+    max-width: 280px;
+    padding: 14px 16px;
+  }
+  
+  .fortune-text {
+    font-size: 13px;
+  }
+  
+  .fortune-cookie {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .cookie-emoji {
+    font-size: 24px;
+  }
+}
+
+/* =============================================================================
+   Dark Mode Support (if needed)
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  .fortune-paper-inner {
+    background: linear-gradient(135deg, #3D3225 0%, #2D2318 100%);
+    border-color: #5D4830;
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .fortune-text {
+    color: #E8D5B7;
+  }
+  
+  .lucky-label {
+    color: #B8A080;
+  }
+  
+  .lucky-value {
+    color: #90EE90;
+  }
+  
+  .crack-another-btn {
+    background: linear-gradient(135deg, #4A3D2A 0%, #3D3225 100%);
+    border-color: #6D5830;
+    color: #D4B896;
+  }
+  
+  .crack-another-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #5D4830 0%, #4A3D2A 100%);
+  }
+}
