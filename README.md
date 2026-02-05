@@ -1,4 +1,4 @@
-# Dinera Financial Coach [Palo Alto Networks Hackathon]
+# Financial Assistant
 
 > **AI-powered personal financial analysis platform with intelligent spending insights, ML anomaly detection, and conversational coaching**
 
@@ -9,18 +9,9 @@
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-10a37f?style=flat-square&logo=openai)](https://openai.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
----
-## Project URLs
-- Code Labs: [Codelabs Documentation](https://codelabs-preview.appspot.com/?file_id=13j_q1EJuL1LQwyuesChPkiwQ2vXxyV9XLnI1e7lg__A/edit?tab=t.5cpih9qtxm58#0)
-- Swagger: [Swagger](http://35.235.97.147:8000/docs)
-- Live Demo : [Dinera](http://35.235.97.147:5173/)
-- Walkthrough Video : [Application Walkthrough](https://www.youtube.com/@PriyaVeerabomma)
-- Github Tasks: [GitHub Issues and Tasks](https://github.com/PriyaVeerabomma/Dinera_financial/issues)
----
-
 ## Overview
 
-**Dinera Financial Coach** is an intelligent financial analysis platform that combines machine learning, natural language processing, and conversational AI to help users:
+**Fin Assistant** is an intelligent financial analysis platform that combines machine learning, natural language processing, and conversational AI to help users:
 
 - **Automatically categorize** financial transactions using hybrid AI + rule-based systems
 - **Detect unusual spending** with Isolation Forest machine learning algorithm
@@ -29,9 +20,9 @@
 - **Receive personalized insights** and actionable savings recommendations
 - **Set and achieve** savings goals with AI-powered forecasting
 
-### Why Dinera?
+### Why Fin Assistant?
 
-Traditional budgeting apps lack intelligence and personalization. Dinera goes beyond simple expense tracking by:
+Traditional budgeting apps lack intelligence and personalization. Fin Assistant goes beyond simple expense tracking by:
 
 - Training ML models **on your individual data** for personalized anomaly detection  
 - Using **GPT-4o with function calling** for natural language financial queries  
@@ -75,7 +66,7 @@ Traditional budgeting apps lack intelligence and personalization. Dinera goes be
 
 
 
-Dinera uses a **microservice architecture** with distinct layers for frontend, API gateway, application logic, data storage, and AI/ML services.
+Fin Assistant uses a **microservice architecture** with distinct layers for frontend, API gateway, application logic, data storage, and AI/ML services.
 
 ```mermaid
 flowchart TD
@@ -209,8 +200,8 @@ flowchart TD
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/your-username/dinera-financial.git
-cd dinera-financial
+git clone https://github.com/your-username/Fin Assistant.git
+cd Fin Assistant
 ```
 
 ### 2. Backend Setup
@@ -293,8 +284,8 @@ npm run dev
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/dinera-financial.git
-cd dinera-financial
+git clone https://github.com/your-username/Fin Assistant.git
+cd FinAssistant
 
 # Setup backend
 cd backend
@@ -344,7 +335,7 @@ docker-compose down
 #### 1. Create VM Instance
 
 ```bash
-gcloud compute instances create dinera-financial \
+gcloud compute instances create Fin-Assistant \
   --zone=us-central1-a \
   --machine-type=e2-medium \
   --image-family=ubuntu-2204-lts \
@@ -356,7 +347,7 @@ gcloud compute instances create dinera-financial \
 #### 2. SSH into VM
 
 ```bash
-gcloud compute ssh dinera-financial --zone=us-central1-a
+gcloud compute ssh Fin-assistant --zone=us-central1-a
 ```
 
 #### 3. Install Dependencies
@@ -381,8 +372,8 @@ sudo apt install -y nginx
 ```bash
 # Clone repository
 cd /var/www
-sudo mkdir -p dinera-financial
-sudo chown $USER:$USER dinera-financial
+sudo mkdir -p Fin-Assistant
+sudo chown $USER:$USER Fin-Assistant
 git clone
 cd fin-asistant
 
@@ -432,7 +423,7 @@ sudo systemctl start fin-asistant
 
 #### 6. Configure Nginx
 
-Create `/etc/nginx/sites-available/dinera-financial`:
+Create `/etc/nginx/sites-available/Fin-Assistant`:
 
 ```nginx
 server {
